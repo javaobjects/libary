@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import com.ptcs.library.dao.ifac.UserDaoIfac;
 import com.ptcs.library.entity.User;
 import com.ptcs.library.util.DBUtils;
 
@@ -12,7 +13,7 @@ import com.ptcs.library.util.DBUtils;
  * @author xianxian
  *
  */
-public class UserDaoImpl {
+public class UserDaoImpl implements UserDaoIfac {
 	
 	/** 
 	 * 根据用户名和密码查询用户的sql
@@ -24,6 +25,7 @@ public class UserDaoImpl {
 	 * 添加用户的方法：
 	 * 用户注册功能会调用该方法
 	 */
+	@Override
 	public int addUser(User user) {
 		int rows = 0;
 		return rows;
@@ -33,6 +35,7 @@ public class UserDaoImpl {
 	 * 根据用户名和密码查询用户的方法
 	 * 用户登录时会调用该方法
 	 */
+	@Override
 	public User queryUserByNameAndPassword(String username,String password,Integer usertype) {
 		User user = null;
 		Connection conn = null;//连接声明

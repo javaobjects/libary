@@ -14,7 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.ptcs.library.dao.impl.UserDaoImpl;
+import com.ptcs.library.dao.DAOFactory;
+import com.ptcs.library.dao.ifac.UserDaoIfac;
 import com.ptcs.library.entity.User;
 
 public class UserLoginView extends JFrame{
@@ -34,7 +35,10 @@ public class UserLoginView extends JFrame{
 	
 	private JButton btn_login;//登录按钮
 	private JButton btn_register;//注册按钮
-	
+	/**
+	 * 窗体属性依赖UserDaoIfac接口
+	 */
+	private UserDaoIfac userDao = DAOFactory.getUserDaoInstance();//声明依赖并初始化,避免空指针异常
 	/**
 	 * 给所有按钮注册倾听器 方法
 	 */
@@ -69,7 +73,7 @@ public class UserLoginView extends JFrame{
 					return;
 				}
 				//3、判断用户是否存在
-				User user = new UserDaoImpl().queryUserByNameAndPassword(username,password,user_type);
+				User user = userDao.queryUserByNameAndPassword(username,password,user_type);
 				if(user == null) {
 					JOptionPane.showMessageDialog(null, "用户名或密码或类型错误,请重新输入或选择");
 					return;
@@ -77,11 +81,12 @@ public class UserLoginView extends JFrame{
 				//4、判断用户类型:如果是普通用户则弹出用户主窗体，如果是管理员则弹出管理员主窗体
 				if(user.getUserType() == 1) {//1是管理员
 					System.out.println("弹出管理主窗体");
+//					new AdminMainView();//弹出管理主窗体 	
 				}else {//2是普通用户
 					System.out.println("弹出普通用户窗体");
+					new UserMainView();//弹出普通用户窗体
+					UserLoginView.this.dispose();//翻译窗体占用的内存
 				}
-				
-				
 			}
 		});
 		btn_register.addActionListener(new ActionListener() {
@@ -142,7 +147,8 @@ public class UserLoginView extends JFrame{
 		
 		this.setTitle("用户登录窗体");//设置窗体的标题
 		this.setSize(360,210);//设置窗体大小
-		this.setLocationRelativeTo(null);
+		this.setResizable(false);//不能收缩
+		this.setLocationRelativeTo(null);//居中
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);//关闭窗体时结束进程
 		this.setVisible(true);//让窗体可见
 	}
