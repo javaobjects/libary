@@ -9,7 +9,11 @@ import java.util.List;
 
 import com.ptcs.library.entity.Book;
 import com.ptcs.library.util.DBUtils;
-
+/**
+ * 图书表的数据访问对象类
+ * @author xianxian
+ *
+ */
 public class BookDaoImpl {
 
 	/** 查询所有图书的sql语句 */
@@ -24,6 +28,10 @@ public class BookDaoImpl {
 	/** 查询不可借图书*/
 	private static final String QUERY_NOT_LEND_BOOKS = "select book_id,book_name,lend_count,status from tab_book"
 			+ " where status=0";
+	
+//	5.添加图书
+//	6.删除图书
+//	7.修改图书
 
 	/**
 	 * 3、查看所有图书信息
@@ -153,16 +161,18 @@ public class BookDaoImpl {
 	
 	
 	/**
-	 * 查看指定书名的图书信息
+	 * 4.查看指定书名的图书信息
 	 */
-//	public List<Book> queryBookByName(String book){
-//		
-//	}
+	public List<Book> queryBookByName(String bookName){
+		//需要模糊查询
+		List<Book> list = new ArrayList<>();
+		return list;
+	}
 	
 	
 	
 	/**
-	 * 查看指定编号的图书信息
+	 * 3.查看指定编号的图书信息
 	 * @param bookId
 	 * @return
 	 */

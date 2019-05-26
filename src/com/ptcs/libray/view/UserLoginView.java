@@ -10,8 +10,12 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import com.ptcs.library.dao.impl.UserDaoImpl;
+import com.ptcs.library.entity.User;
 
 public class UserLoginView extends JFrame{
 	//大到窗体中的窗口 小到各个组件如标签等 都定义成窗体的属性
@@ -35,7 +39,7 @@ public class UserLoginView extends JFrame{
 	 * 给所有按钮注册倾听器 方法
 	 */
 	private void registetActionListener() {
-		btn_login.addActionListener(new ActionListener() {
+		btn_login.addActionListener(new ActionListener() {//给登录按钮注册倾听器方法
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -47,17 +51,44 @@ public class UserLoginView extends JFrame{
 				String username = txt_username.getText();
 				String password = txt_password.getText();
 				String type = (String)cb_type.getSelectedItem();
-				int user_type = cb_type.getSelectedIndex() + 1;//老师用的三元表达式
+				int user_type = cb_type.getSelectedIndex() + 1;//1是管理员2 是普通用户
+				
+//				System.out.println(username);
+//				System.out.println(password);
+//				System.out.println(user_type);
 				
 				//2、对数据进行非空判断
-//				if(username = null || "".equals(username.trim()) ||password = null || "".equals(password.trim())) {
-//					JOptionPane.showMessageDialog(null,"用户名或者密码为空,请重新输入");
-//					return;
-//				}
-				//判断用户是否存在
+				//对用户名进行非空判断
+				if(username == null || "".equals(username.trim())) {
+					JOptionPane.showMessageDialog(null,"用户名为空,请重新输入");
+					return;
+				}
+				//对密码进行非空判断
+				if(password == null || "".equals(password.trim())) {
+					JOptionPane.showMessageDialog(null, "密码为空,请重新输入");
+					return;
+				}
+				//3、判断用户是否存在
+				User user = new UserDaoImpl().queryUserByNameAndPassword(username,password,user_type);
+				if(user == null) {
+					JOptionPane.showMessageDialog(null, "用户名或密码或类型错误,请重新输入或选择");
+					return;
+				}
+				//4、判断用户类型:如果是普通用户则弹出用户主窗体，如果是管理员则弹出管理员主窗体
+				if(user.getUserType() == 1) {//1是管理员
+					System.out.println("弹出管理主窗体");
+				}else {//2是普通用户
+					System.out.println("弹出普通用户窗体");
+				}
 				
 				
-				
+			}
+		});
+		btn_register.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("你点击咯注册按钮");
 				
 			}
 		});
