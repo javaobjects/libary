@@ -84,7 +84,7 @@ public class UserLoginView extends JFrame{
 //					new AdminMainView();//弹出管理主窗体 	
 				}else {//2是普通用户
 					System.out.println("弹出普通用户窗体");
-					new UserMainView();//弹出普通用户窗体
+					new UserMainView(user);//弹出普通用户窗体
 					UserLoginView.this.dispose();//翻译窗体占用的内存
 				}
 			}

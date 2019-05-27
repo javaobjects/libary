@@ -2,6 +2,8 @@ package com.ptcs.libray.view;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -10,6 +12,8 @@ import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import com.ptcs.library.entity.User;
 /**
  * 用户登录之后的主窗体
  * @author xianxian
@@ -35,6 +39,11 @@ public class UserMainView extends JFrame{
 	/** 退出窗口按钮 */
 	private JButton btn_exit;
 	/**
+	 * 定义一个属性保存用户信息：编号，姓名，密码，用户类型
+	 */
+	private User user;
+	
+	/**
 	 * 初始化各个控件并拼装
 	 */
 	private void init()
@@ -46,7 +55,7 @@ public class UserMainView extends JFrame{
 		panel_right = new JPanel(new GridLayout(7, 1, 0, 30));
 
 		label_welcome = new JLabel(
-				"欢    迎    XXX 使   用   图   书   借   阅   管   理   系   统");
+				"欢    迎    "+this.user.getUserName()+" 使   用   图   书   借   阅   管   理   系   统");
 
 		Icon icon = new ImageIcon("config\\images\\baxianhua.jpg");
 		label_img = new JLabel(icon);
@@ -77,10 +86,44 @@ public class UserMainView extends JFrame{
 	}
 
 	/**
+	 * 给三个按钮注册侦听器
+	 */
+	private void registerListener() {
+		btn_quy_book.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("btn_quy_book");
+				//显示图书查询嵌入式窗体
+				UserQueryBookView qbv = new UserQueryBookView(getUser());
+				panel_left.add(qbv);
+				qbv.toFront();
+			}
+		});
+		btn_quy_record.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("btn_quy_record");
+				
+			}
+		});
+		btn_exit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("btn_exit");
+				
+			}
+		});
+	}
+	/**
 	 * 利用构造方法设置窗体属性
 	 */
-	public UserMainView() {
+	public UserMainView(User user) {
+		this.user = user;//给user属性赋值
 		init();
+		registerListener();
 		this.setTitle("用户主窗体");
 		this.setSize(800,600);
 		this.setResizable(false);//不能收缩
@@ -88,4 +131,13 @@ public class UserMainView extends JFrame{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);//点击x之后程序退出
 		this.setVisible(true);//显示
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 }

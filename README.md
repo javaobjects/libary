@@ -86,4 +86,11 @@ JDBC工具：DBUtils
 |return_time | date || 归还时间 |
 
 
+犯错总结：
 
+1. 数据库列名与代码中列名不一致 报标识符无效
+
+![](https://upload-images.jianshu.io/upload_images/5227364-12d82ff45bfffbef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+2. switch 里少写一种条件 无法得到数据
+![](https://upload-images.jianshu.io/upload_images/5227364-53d4f26ba55d14c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
