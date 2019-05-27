@@ -38,4 +38,12 @@ public interface BookDaoIfac {
 	 */
 	Book queryBookByBookId(Integer bookId);
 
+	/**
+	 * 借书的方法
+	 * @param book_id
+	 * @param userId
+	 * @return
+	 */
+	Boolean lendBook(Integer book_id, Integer userId);
+
 }

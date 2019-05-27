@@ -86,7 +86,7 @@ JDBC工具：DBUtils
 |return_time | date || 归还时间 |
 
 
-犯错总结：
+项目coding bug总结：
 
 1. 数据库列名与代码中列名不一致 报标识符无效
 
@@ -94,3 +94,11 @@ JDBC工具：DBUtils
 
 2. switch 里少写一种条件 无法得到数据
 ![](https://upload-images.jianshu.io/upload_images/5227364-53d4f26ba55d14c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+3. insert into tab_record(record_id,book_id,user_id,lend_time) values(seq_record_id.nextval,?,?,sysdate)语句少最后一个“）”号
+![](https://upload-images.jianshu.io/upload_images/5227364-5d2e464b4e9e97d0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+4. select seq_record_id.nextval from dual; 值被占用。。
+解决方法 在pl/sql工具中多执行几次直到大于当前表的索引值
+![](https://upload-images.jianshu.io/upload_images/5227364-2f263389b8e4cd55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
