@@ -175,7 +175,6 @@ public class UserQueryBookView extends JInternalFrame{
 			}
 		});
 		btn_lend.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("222");
@@ -203,11 +202,10 @@ public class UserQueryBookView extends JInternalFrame{
 			}
 		});
 		btn_exit.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("333");
-
+				UserQueryBookView.this.dispose();//关闭当前窗口
 			}
 		});
 		

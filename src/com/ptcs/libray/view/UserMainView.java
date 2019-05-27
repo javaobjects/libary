@@ -89,6 +89,7 @@ public class UserMainView extends JFrame{
 	 * 给三个按钮注册侦听器
 	 */
 	private void registerListener() {
+		//图书查询
 		btn_quy_book.addActionListener(new ActionListener() {
 			
 			@Override
@@ -100,6 +101,7 @@ public class UserMainView extends JFrame{
 				qbv.toFront();
 			}
 		});
+		//借阅记录查询
 		btn_quy_record.addActionListener(new ActionListener() {
 			
 			@Override
@@ -108,12 +110,13 @@ public class UserMainView extends JFrame{
 				
 			}
 		});
+		//退出窗口
 		btn_exit.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btn_exit");
-				
+				UserMainView.this.dispose();//关闭当前窗口
 			}
 		});
 	}

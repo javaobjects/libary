@@ -29,6 +29,11 @@ public class BookDaoImpl implements BookDaoIfac {
 	/** 查询不可借图书*/
 	private static final String QUERY_NOT_LEND_BOOKS = "select book_id,book_name,book_count,book_status from tab_book"
 			+ " where book_status=0";
+	/**插入一条借书记录**/
+	private static final String INSERT_LENT_BOOK_TO_TAB_RECORD = "insert into tab_record(record_id,book_id,user_id,lend_time) "
+			+ "values(seq_record_id.nextval,?,?,sysdate)";
+	/**修改书的状态为**/
+	private static final String UPDATE_BOOK_STATUS = "update tab_book set book_status = 0 where book_id = ?";
 	
 //	5.添加图书
 //	6.删除图书
@@ -64,13 +69,12 @@ public class BookDaoImpl implements BookDaoIfac {
 			}else {
 				//如果可借继续
 				//1、插入一条借书记录
-				stmt = conn.prepareStatement("insert into tab_record(record_id,book_id,user_id,lend_time) "
-						+ "values(seq_record_id.nextval,?,?,sysdate)");
+				stmt = conn.prepareStatement(INSERT_LENT_BOOK_TO_TAB_RECORD);
 				stmt.setInt(1,book_id);
 				stmt.setInt(2,user_id);
 				int rows_insert = stmt.executeUpdate();
 				//2、修改书的状态为0
-				stmt = conn.prepareStatement("update tab_book set book_status = 0 where book_id = ?");
+				stmt = conn.prepareStatement(UPDATE_BOOK_STATUS);
 				stmt.setInt(1,book_id);
 				int rows_update = stmt.executeUpdate();
 				
