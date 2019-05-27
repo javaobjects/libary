@@ -32,13 +32,78 @@ public class BookDaoImpl implements BookDaoIfac {
 	/**插入一条借书记录**/
 	private static final String INSERT_LENT_BOOK_TO_TAB_RECORD = "insert into tab_record(record_id,book_id,user_id,lend_time) "
 			+ "values(seq_record_id.nextval,?,?,sysdate)";
-	/**修改书的状态为**/
-	private static final String UPDATE_BOOK_STATUS = "update tab_book set book_status = 0 where book_id = ?";
-	
+	/**修改书的状态为0**/
+	private static final String UPDATE_BOOK_STATUS_TO0 = "update tab_book set book_status = 0 where book_id = ?";
+	/**修改书的状态为1**/
+	private static final String UPDATE_BOOK_STATUS_TO1 = "update tab_book set book_status = 1 where book_id = ?";
 //	5.添加图书
 //	6.删除图书
 //	7.修改图书
 	
+	/**
+	 * 11.还书
+	 */
+	@Override
+//	public Boolean rebackBook(Integer book_id, Integer user_id,Integer record_id) {
+	public Boolean rebackBook(Integer book_id, Integer user_id) {
+		Boolean result = false;
+		/**
+		 * 还书思路：
+		 * 1、将book_count值进行加1操作
+		 * 2、将book_status状态值更改
+		 * 3、将return_time更 新
+		 */
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = DBUtils.getConnection();
+			conn.setAutoCommit(false);
+			
+			stmt = conn.prepareStatement("select book_status from tab_book where book_id=?");
+			stmt.setInt(1,book_id);
+			rs = stmt.executeQuery();
+			int status = 0;
+			if(rs.next()) {
+				status = rs.getInt("book_status");
+			}
+			//如果不可借返回
+			if(status == 0) {//状态为0表示可还 
+				
+				//如果可借继续
+				//1、插入一条还书记录
+//				stmt = conn.prepareStatement("insert into tab_record(record_id,book_id,user_id,return_time) "
+//						+ "values(seq_record_id.nextval,?,?,sysdate)");
+//				stmt.setInt(1,book_id);
+//				stmt.setInt(2,user_id);
+//				int rows_insert = stmt.executeUpdate();
+				//2、修改书的状态为0
+				stmt = conn.prepareStatement(UPDATE_BOOK_STATUS_TO1);
+				stmt.setInt(1,book_id);
+				int rows_update = stmt.executeUpdate();
+				
+				if(rows_update > 0) {
+					conn.commit();//事务提交
+					result = true;//借书成功
+				}else {
+					conn.rollback();//事务回滚
+				}
+			}else {//状态为1表示未借出（在馆）
+				return result;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}finally {
+			DBUtils.release(conn, stmt, rs);
+		}
+		return result;
+	}
 	/**
 	 * 10.借书
 	 */
@@ -74,7 +139,7 @@ public class BookDaoImpl implements BookDaoIfac {
 				stmt.setInt(2,user_id);
 				int rows_insert = stmt.executeUpdate();
 				//2、修改书的状态为0
-				stmt = conn.prepareStatement(UPDATE_BOOK_STATUS);
+				stmt = conn.prepareStatement(UPDATE_BOOK_STATUS_TO0);
 				stmt.setInt(1,book_id);
 				int rows_update = stmt.executeUpdate();
 				
@@ -252,4 +317,6 @@ public class BookDaoImpl implements BookDaoIfac {
 		Book book = null;
 		return book;
 	}
+
+
 }

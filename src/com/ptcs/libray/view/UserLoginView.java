@@ -99,9 +99,6 @@ public class UserLoginView extends JFrame{
 		});
 	}
 	
-	
-	
-	
 	/**
 	 * 初始化窗体的方法
 	 */

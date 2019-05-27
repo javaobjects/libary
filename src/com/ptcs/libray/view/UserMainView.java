@@ -42,6 +42,10 @@ public class UserMainView extends JFrame{
 	 * 定义一个属性保存用户信息：编号，姓名，密码，用户类型
 	 */
 	private User user;
+    //	图书查询
+	private UserQueryBookView qbv = null;
+	//借阅记录查询
+	private UserLendRecordView lrv = null;
 	
 	/**
 	 * 初始化各个控件并拼装
@@ -96,9 +100,15 @@ public class UserMainView extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btn_quy_book");
 				//显示图书查询嵌入式窗体
-				UserQueryBookView qbv = new UserQueryBookView(getUser());
+				if(qbv != null) {
+					panel_left.remove(qbv);
+				}
+				if(lrv != null) {
+					panel_left.remove(lrv);
+				}
+			    qbv = new UserQueryBookView(getUser());
 				panel_left.add(qbv);
-				qbv.toFront();
+				qbv.toFront();//将此窗体放到最前面
 			}
 		});
 		//借阅记录查询
@@ -107,7 +117,15 @@ public class UserMainView extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btn_quy_record");
-				
+				if(qbv != null) {
+					panel_left.remove(qbv);
+				}
+				if(lrv != null) {
+					panel_left.remove(lrv);
+				}
+				lrv = new UserLendRecordView(getUser());
+				panel_left.add(lrv);
+				lrv.toFront();//将此窗体放到最前面
 			}
 		});
 		//退出窗口
