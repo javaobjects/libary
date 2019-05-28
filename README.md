@@ -65,7 +65,7 @@ JDBC工具：DBUtils
 |book_id	|int	|not null	|书籍编号，自增长|
 |book_name	|varchar	|not null	|书籍名称|
 |book_count	|int	|not null	|借出次数|
-|status	|int	|not null	|书籍状态（0，已借出，1，可借）|
+|book_status	|int	|not null	|书籍状态（0，已借出，1，可借）|
 
 #### Users表
 |  列名	 |  数据类型  |  可否为空  |  说明  |
@@ -73,7 +73,7 @@ JDBC工具：DBUtils
 |user_id |	int|	not null|	用户编号，自增长|
 |user_name|	varchar|	not null|	用户名，唯一|
 |user_password|	varchar	|not null|	用户密码|
-|type	|int|	not null|	用户类型，1，普通用户，2，管理员|
+|user_type	|int|	not null|	用户类型，1，普通用户，2，管理员|
 
 ### Record表
 
