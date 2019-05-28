@@ -3,6 +3,9 @@ package com.ptcs.libray.view;
 import javax.swing.JFrame;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,11 +33,6 @@ public class UserRegisterView extends JFrame{
 	 * 窗体属性依赖UserDaoIfac接口
 	 */
 	private UserDaoIfac userDao = DAOFactory.getUserDaoInstance();//声明依赖并初始化,避免空指针异常
-	/**
-	 * 给所有按钮注册倾听器 方法
-	 */
-	private void registetActionListener() {
-	}
 	
 	/**
 	 * 初始化窗体的方法
@@ -65,13 +63,32 @@ public class UserRegisterView extends JFrame{
 		//3、把组件都装入窗体中
 		this.add(panel_common);//将总容器全部存入进容器JFrame
 		this.setTitle("用户注册窗体");//设置窗体的标题
-		this.setSize(360,300);//设置窗体大小
+		this.setSize(360,210);//设置窗体大小
 		this.setResizable(false);//不能收缩
 		this.setLocationRelativeTo(null);//居中
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);//关闭窗体时结束进程
 		this.setVisible(true);//让窗体可见
 	}
-	
+	/**
+	 * 给所有按钮注册倾听器 方法
+	 */
+	private void registetActionListener() {
+		btn_exit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("btn_exit");
+			}
+		});
+		btn_commit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("btn_commit");
+				
+			}
+		});
+	}
 	public UserRegisterView() {
 		init();
 		registetActionListener();
