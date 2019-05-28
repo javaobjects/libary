@@ -34,7 +34,7 @@ public class BookDaoImpl implements BookDaoIfac {
 			+ "values(seq_record_id.nextval,?,?,sysdate)";
 	/**修改书的状态为0**/
 	private static final String UPDATE_BOOK_STATUS_TO0 = "update tab_book set book_status = 0,"
-			+ "lend_count = lend_count + 1 where book_id=?";
+			+ "book_count = book_count + 1 where book_id=?";
 	/**修改书的状态为1**/
 	private static final String UPDATE_BOOK_STATUS_TO1 = "update tab_book set book_status = 1 where book_id = ?";
 //	5.添加图书

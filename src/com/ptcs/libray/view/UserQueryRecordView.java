@@ -192,7 +192,7 @@ public class UserQueryRecordView extends JInternalFrame{
 				}
 				
 				//3、调用底层dao完成还书功能并提示信息
-				boolean result = recordDao.returnBook(record_id,book_id,user.getUserId());
+				boolean result = recordDao.returnBook(record_id,book_id);
 				if(result) {
 					JOptionPane.showMessageDialog(null, "还书成功");
 					return;
