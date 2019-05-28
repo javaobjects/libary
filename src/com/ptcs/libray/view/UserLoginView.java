@@ -44,7 +44,6 @@ public class UserLoginView extends JFrame{
 	 */
 	private void registetActionListener() {
 		btn_login.addActionListener(new ActionListener() {//给登录按钮注册倾听器方法
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("你点击咯登录");
@@ -95,6 +94,8 @@ public class UserLoginView extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("你点击咯注册按钮");
+				new UserRegisterView();
+				UserLoginView.this.dispose();
 				
 			}
 		});
