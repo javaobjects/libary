@@ -134,6 +134,7 @@ public class UserMainView extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btn_exit");
+				new UserLoginView();
 				UserMainView.this.dispose();//关闭当前窗口
 			}
 		});
