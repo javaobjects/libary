@@ -81,11 +81,12 @@ public class UserLoginView extends JFrame{
 				//4、判断用户类型:如果是普通用户则弹出用户主窗体，如果是管理员则弹出管理员主窗体
 				if(user.getUserType() == 1) {//1是管理员
 					System.out.println("弹出管理主窗体");
-//					new AdminMainView();//弹出管理主窗体 	
+					new AdminMainView(user);//弹出管理主窗体 	
+					UserLoginView.this.dispose();////释放窗体占用的内存
 				}else {//2是普通用户
 					System.out.println("弹出普通用户窗体");
 					new UserMainView(user);//弹出普通用户窗体
-					UserLoginView.this.dispose();//翻译窗体占用的内存
+					UserLoginView.this.dispose();//释放窗体占用的内存
 				}
 			}
 		});
