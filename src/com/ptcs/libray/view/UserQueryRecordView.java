@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -186,7 +187,8 @@ public class UserQueryRecordView extends JInternalFrame{
 				
 				//2、对id进行非空检验
 				if(record_id == 0) {
-					
+					JOptionPane.showMessageDialog(null, "请选择要还的书");
+					return;
 				}
 				
 				//3、调用底层dao完成还书功能并提示信息
