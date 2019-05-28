@@ -13,7 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -21,13 +20,17 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import com.ptcs.library.dao.DAOFactory;
-import com.ptcs.library.dao.ifac.BookDaoIfac;
-import com.ptcs.library.entity.Book;
+import com.ptcs.library.dao.ifac.RecordDaoIfac;
+import com.ptcs.library.entity.Record;
 import com.ptcs.library.entity.User;
-
-public class UserLendRecordView extends JInternalFrame{
+/**
+ * 用户查询借阅记录
+ * @author xianxian
+ *
+ */
+public class UserQueryRecordView extends JInternalFrame{
 	//窗体中功能的实现依赖底层的dao，所以属性依赖
-	private BookDaoIfac bookDao=DAOFactory.getBookDaoInstance();
+	private RecordDaoIfac recordDao = DAOFactory.getRecordDaoInstance();
 	private User user;
 	/**
 	 * 窗体中最外层的面板
@@ -49,21 +52,21 @@ public class UserLendRecordView extends JInternalFrame{
 	private JComboBox<String> cb_query_type;
 	/** 查询按钮 */
 	private JButton btn_query;
-	/** 借书按钮 */
-	private JButton btn_lend;
+	/** 还书按钮 */
+	private JButton btn_return;
 	/** 退出按钮 */
 	private JButton btn_exit;
 	/**
 	 * 存放选定图书ID属性
 	 */
 	private Integer book_id = 0;
-	/** 初始化组件装配组件的方法 */
+	/** 初始化组件装配组件的方法 */ 
 	private void init() {
 		lb_query_type = new JLabel("查询类型：");
-		cb_query_type = new JComboBox<String>(new String[] { "所有图书", "热门图书",
-				"可借图书", "不可借图书" });
+		cb_query_type = new JComboBox<String>(new String[] { "所有借书记录", "未还借书记录",
+				"已还借书记录"});
 		btn_query = new JButton("查    询");
-		btn_lend = new JButton("还     书");
+		btn_return = new JButton("还     书");
 		btn_exit = new JButton("退     出");
 
 		table = new JTable();
@@ -75,7 +78,7 @@ public class UserLendRecordView extends JInternalFrame{
 		panel_right.add(lb_query_type);
 		panel_right.add(cb_query_type);
 		panel_right.add(btn_query);
-		panel_right.add(btn_lend);
+		panel_right.add(btn_return);
 		panel_right.add(new JLabel());
 		panel_right.add(new JLabel());
 		panel_right.add(btn_exit);
@@ -88,22 +91,6 @@ public class UserLendRecordView extends JInternalFrame{
 	}
 	
 	
-	
-	
-	
-	
-	public UserLendRecordView(User user) {
-		this.user = user;
-		init();
-		registerListener();
-		this.setTitle("用户查询借阅记录窗体");
-		this.setSize(600,500);
-		//设置窗体可以关闭
-		this.setClosable(true);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);// 设置默认的关闭操作，释放内存空间
-		this.setIconifiable(true);// 窗体能否最小化
-		this.setVisible(true);//显示
-	}
 	private void registerListener() {
 		table.addMouseListener(new MouseListener() {
 			
@@ -143,146 +130,143 @@ public class UserLendRecordView extends JInternalFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("111");
-				//1、获取查询类型
-				int result = cb_query_type.getSelectedIndex();
-				//2、根据查询类型 云数据库查询 返回图书集合
-				List<Book> books = null;
-				switch (result) {
-				case 0:
-					books = bookDao.queryAllBooks();
-					break;
-                case 1:
-					books = bookDao.queryHotBooks();
-					break;
-                case 2:
-                	books = bookDao.queryCanLendBooks();
-	                break;
-                case 3:
-                	books = bookDao.queryCanNotLendBooks();
-	                break;
-				default:
-					break;
+				/**
+				 * 思路：1、记录是什么样的查什么样的，这样没错的
+				 *     2、照顾用户体验 user_id不需要显示，因为是自己借的书，
+				 *     book最好把书名显示出来;归还时间最好改居是否还书
+				 *     3、考虑后面的还书功能实现 起来方便，所以表中最好把
+				 *     record_id book_id都显示出来
+				 */
+				
+				/**
+				 * 查询功能实现
+				 * 1、获取查询类型
+				 * 2、调用底层dao的查询方法查询记录集合
+				 * 3、将集合数据显示到table控件中
+				 *    3.1 需要先定义数据模型
+				 * 
+				 */
+				int type = cb_query_type.getSelectedIndex();//值从0开始
+				List<Record> records = null;
+				
+				switch (type) {
+					case 0:
+						records = recordDao.queryAllRecord(user);
+						break;
+					case 1:
+						records = recordDao.queryAllNotReturnRecord(user);
+						break;
+					case 2:
+						records = recordDao.queryAllReturnRecord(user);
+						break;
+					default:
+						break;
 				}
-				System.out.println(books.toString());
-				//想要把数据显示在面板上的表格控件中，那么一行代码就搞定了。
-				BookTableModel dataModel=new BookTableModel(books);
-				table.setModel(dataModel);
-				book_id = 0;//重新查询数据后将以前选定的图书Id设为0
+				System.out.println("records:"+records.toString());
+				RecordModel model = new RecordModel(records);
+				table.setModel(model);
+				
 			}
 		});
-		btn_lend.addActionListener(new ActionListener() {
+		btn_return.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("222");
-
-				/**
-				 * 完成借书功能：思路
-				 * 1、获取选定的图书 
-				 *      要有判断 非空判断  不可借图书选定判断（因为书的状态一直在变，所以不在这里判断）
-				 * 2、调用底层dao完成借书
-				 *    注意：添加一条借书 记录 同时修改图书的状态为不在馆  两个更新确保在同一个事务当中
-				 * 3、根据返回结果提示用户借书成功或者失败
-				 *   JOptionPane技术
-				 */
-				System.out.println("book_id:"+book_id);
-				if(book_id == 0) {
-					JOptionPane.showMessageDialog(null, "请选定图书 ");
-					return;
-				}
-				boolean result = bookDao.rebackBook(book_id,user.getUserId());//此处还应该传参record_id 关键是如何获取这个值
-				if(result) {
-					JOptionPane.showMessageDialog(null, "还书成功 ");
-				}else {
-					JOptionPane.showMessageDialog(null, "还书失败或此书未被你借出 ");
-				}
 			}
 		});
 		btn_exit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("333");
-				UserLendRecordView.this.dispose();//关闭当前窗口
+				UserQueryRecordView.this.dispose();//关闭当前窗口
 			}
 		});
 		
 	}
+	/** 构造方法 */
+	public UserQueryRecordView(User user) {
+		this.user = user;
+		init();
+		registerListener();
+		this.setTitle("用户查询借阅记录窗体");
+		this.setSize(600,500);
+		//设置窗体可以关闭
+		this.setClosable(true);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);// 设置默认的关闭操作，释放内存空间
+		this.setIconifiable(true);// 窗体能否最小化
+		this.setVisible(true);//显示
+	}
 	//定义显示图书数据表格模型，也是一个内部类
-	private class BookTableModel implements TableModel{
+	private class RecordModel implements TableModel{
 
-		private List<Book> books;
-		
-		public BookTableModel(List<Book> books)
+		private List<Record> records;
+		  
+		public RecordModel(List<Record> records)
 		{
-			this.books=books;
+			this.records = records;
 		}
-		@Override//1
+		@Override
 		public int getRowCount() {
-			// TODO Auto-generated method stub
-			return books.size();
+			return records.size();
 		}
 
-		@Override//2
+		@Override
 		public int getColumnCount() {
-			// TODO Auto-generated method stub
-			return 4;//可以写死
+			return 5;//5列：record_id book_id book_name lend_time 是否归还 
 		}
 
 		@Override//3
 		public String getColumnName(int columnIndex) {
 			if(columnIndex == 0) {
-				return "图书编号";
+				return "记录编号";
 			}else if(columnIndex == 1) {
-				return "图书名称";
+				return "图书编号";
 			}else if(columnIndex == 2) {
-				return "借阅次数";
+				return "图书名称";
+			}else if(columnIndex == 3){
+				return "借书时间";
 			}else {
-				return "是否可借";
+				return "是否已经归还";
 			}
 		}
 
 		@Override
 		public Class<?> getColumnClass(int columnIndex) {
-			// TODO Auto-generated method stub
-			return String.class;
+			return String.class;//第一列的数据类型
 		}
 
 		@Override
 		public boolean isCellEditable(int rowIndex, int columnIndex) {
-			// TODO Auto-generated method stub
 			return false;
 		}
 
 		@Override//4
 		public Object getValueAt(int rowIndex, int columnIndex) {
-			//首先获取该行对应的图书信息
-			Book book=books.get(rowIndex);
+			//首先获取当前行的数据：record
+			Record record = records.get(rowIndex);//rowIndex从0开始 相当于集合中元素索引
 			if(columnIndex == 0) {
-				return book.getBookId();
+				return record.getRecordId();
 			}else if(columnIndex == 1) {
-				return book.getBookName();
+				return record.getBook().getBookId();
 			}else if(columnIndex == 2) {
-				return book.getLendCount();
+				return record.getBook().getBookName();
+			}else if(columnIndex == 3){
+				return record.getLendTime();
 			}else {
-				return book.getStatus() == 0?"不可借":"可借";
+				return record.getReturnTime() == null?"未还":"已还";
 			}
 		}
 
 		@Override
 		public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public void addTableModelListener(TableModelListener l) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public void removeTableModelListener(TableModelListener l) {
-			// TODO Auto-generated method stub
-			
 		}
 		
 	}

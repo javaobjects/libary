@@ -1,8 +1,10 @@
 package com.ptcs.library.dao;
 
 import com.ptcs.library.dao.ifac.BookDaoIfac;
+import com.ptcs.library.dao.ifac.RecordDaoIfac;
 import com.ptcs.library.dao.ifac.UserDaoIfac;
 import com.ptcs.library.dao.impl.BookDaoImpl;
+import com.ptcs.library.dao.impl.RecordDaoImpl;
 import com.ptcs.library.dao.impl.UserDaoImpl;
 
 /**
@@ -21,5 +23,9 @@ public class DAOFactory {
 	public static BookDaoIfac getBookDaoInstance() {
 		// TODO Auto-generated method stub
 		return new BookDaoImpl();
+	}
+	public static RecordDaoIfac getRecordDaoInstance()
+	{
+		return new RecordDaoImpl();
 	}
 }
