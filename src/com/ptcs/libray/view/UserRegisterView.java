@@ -8,11 +8,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.ptcs.library.dao.DAOFactory;
 import com.ptcs.library.dao.ifac.UserDaoIfac;
+import com.ptcs.library.entity.User;
 
 public class UserRegisterView extends JFrame{
 	//大到窗体中的窗口 小到各个组件如标签等 都定义成窗体的属性
@@ -88,7 +90,56 @@ public class UserRegisterView extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btn_commit");
+				System.out.println("你点击咯登录");
+				/**
+				 *点击登录按钮的目的：登录，来到主 窗体
+				 *1、获取用户名和密码 还有用户类型 
+				 */
+				/**
+				 * 点击确定提交按钮目的：
+				 * 1、获取用户姓名、密码、确认密码
+				 * 2、验证用户姓名合法（无特殊字符）
+				 * 3、验证密码与确认密码一致并无特列字符
+				 * 4、通过验证后向数据库插入数据并返回是否插入成功 成功失败都弹出提示框
+				 * 5、成功后关闭当前窗体打开登陆窗体
+				 * 6、若失败则留在当前窗体
+				 */
+				String username = txt_username.getText();
+				String password = txt_password.getText();
+				String type = (String)cb_type.getSelectedItem();
+				int user_type = cb_type.getSelectedIndex() + 1;//1是管理员2 是普通用户
 				
+//				System.out.println(username);
+//				System.out.println(password);
+//				System.out.println(user_type);
+				
+				//2、对数据进行非空判断
+				//对用户名进行非空判断
+				if(username == null || "".equals(username.trim())) {
+					JOptionPane.showMessageDialog(null,"用户名为空,请重新输入");
+					return;
+				}
+				//对密码进行非空判断
+				if(password == null || "".equals(password.trim())) {
+					JOptionPane.showMessageDialog(null, "密码为空,请重新输入");
+					return;
+				}
+				//3、判断用户是否存在
+				User user = userDao.queryUserByNameAndPassword(username,password,user_type);
+				if(user == null) {
+					JOptionPane.showMessageDialog(null, "用户名或密码或类型错误,请重新输入或选择");
+					return;
+				}
+				//4、判断用户类型:如果是普通用户则弹出用户主窗体，如果是管理员则弹出管理员主窗体
+				if(user.getUserType() == 1) {//1是管理员
+					System.out.println("弹出管理主窗体");
+					new AdminMainView(user);//弹出管理主窗体 	
+					UserLoginView.this.dispose();////释放窗体占用的内存
+				}else {//2是普通用户
+					System.out.println("弹出普通用户窗体");
+					new UserMainView(user);//弹出普通用户窗体
+					UserLoginView.this.dispose();//释放窗体占用的内存
+				}
 			}
 		});
 	}
