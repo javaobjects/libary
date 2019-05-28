@@ -46,13 +46,4 @@ public interface BookDaoIfac {
 	 */
 	Boolean lendBook(Integer book_id, Integer userId);
 
-	/**
-	 * 还书的方法
-	 * @param book_id
-	 * @param userId
-	 * @return
-	 */
-	Boolean rebackBook(Integer book_id, Integer user_id);
-//	Boolean rebackBook(Integer book_id, Integer user_id, Integer record_id);
-
 }

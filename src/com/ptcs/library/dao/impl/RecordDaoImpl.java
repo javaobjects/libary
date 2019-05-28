@@ -30,7 +30,7 @@ public class RecordDaoImpl implements RecordDaoIfac {
 	
 	
 	/**
-	 * 10、还书功能
+	 * 11、还书功能
 	 */
 	public boolean returnBook(int record_id,int book_id)
 	{
@@ -56,15 +56,15 @@ public class RecordDaoImpl implements RecordDaoIfac {
 			if(rs.next()) { 
 				status = rs.getInt("book_status");
 			}
-			//如果不可借返回
-			if(status == 0) {
+			System.out.println(status);
+			//如果不可还返回
+			if(status != 0) {
 				return result;
 			}else {
 				//如果可还继续
 				//1、修改借书记录的归还时间
 				stmt = conn.prepareStatement("update tab_record set return_time = sysdate where record_id = ?");
 				stmt.setInt(1,record_id);
-//				stmt.setInt(2,user_id);
 				int rows1 = stmt.executeUpdate();
 				//2、同时修改书的状态为1
 				stmt = conn.prepareStatement("update tab_book set book_status = 1 where book_id=?");
