@@ -153,6 +153,9 @@ public class UserQueryRecordView extends JInternalFrame{
 				 *    3.1 需要先定义数据模型
 				 * 
 				 */
+				//把刚才选的借阅记录编号清空
+				record_id = 0;
+				book_id = 0;
 				int type = cb_query_type.getSelectedIndex();//值从0开始
 				List<Record> records = null;
 				
@@ -179,9 +182,12 @@ public class UserQueryRecordView extends JInternalFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("222");
-				//1、获取用户选定的图书的id，记录id
+				//1、获取用户选定的图书的id，记录id能过给table控件注册侦听器获取
 				
 				//2、对id进行非空检验
+				if(record_id == 0) {
+					
+				}
 				
 				//3、调用底层dao完成还书功能并提示信息
 			}
