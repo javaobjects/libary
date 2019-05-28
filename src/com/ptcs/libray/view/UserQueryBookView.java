@@ -100,7 +100,7 @@ public class UserQueryBookView extends JInternalFrame{
 		init();
 		registerListener();
 		this.setTitle("用户查询图书窗体");
-		this.setSize(600,500);
+		this.setSize(679,540);
 		//设置窗体可以关闭
 		this.setClosable(true);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);// 设置默认的关闭操作，释放内存空间
