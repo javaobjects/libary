@@ -136,6 +136,14 @@ public class UserQueryRecordView extends JInternalFrame{
 				 *     book最好把书名显示出来;归还时间最好改居是否还书
 				 *     3、考虑后面的还书功能实现 起来方便，所以表中最好把
 				 *     record_id book_id都显示出来
+			     * user_id book_id lend_time return_time 4 13 5 2019/5/27
+				 * 14:18:31 5 13 4 2019/5/27 15:14:34 111 13 6 2019/5/2 2019/5/5
+				 * 110 12 4 2019/5/14 2019/5/16 109 11 3 2019/5/13 108 14 2
+				 * 2019/5/6
+				 * 
+	             * record_id user_id book_id book_name lend_time 是否归还 4 13 5
+				 * 2019/5/27 已还 5 13 4 2019/5/27 已还 111 13 6 2019/5/2 已还 110 12
+				 * 4 2019/5/14 已还 109 11 3 2019/5/13 未还 108 14 2 2019/5/6 未还
 				 */
 				
 				/**
@@ -176,7 +184,7 @@ public class UserQueryRecordView extends JInternalFrame{
 				
 				//2、对id进行非空检验
 				
-				//3、调用底层dao完成还书功能
+				//3、调用底层dao完成还书功能并提示信息
 			}
 		});
 		btn_exit.addActionListener(new ActionListener() {
