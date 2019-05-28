@@ -20,6 +20,11 @@ public class UserDaoImpl implements UserDaoIfac {
 	 */
 	private static final String QUERY_USER_BY_NAME_AND_PASSWORD = "select * from tab_user "
 			+ "where user_name = ? and user_password = ? and user_type = ?";
+	/**
+	 * 根据用户名查询用户名是否存在的sql
+	 */
+	private static final String QUERY_USER_BY_NAME = "select * from tab_user"
+			+ " where user_name = ?";
 
 	/**
 	 * 添加用户的方法：
@@ -29,6 +34,33 @@ public class UserDaoImpl implements UserDaoIfac {
 	public int addUser(User user) {
 		int rows = 0;
 		return rows;
+	}
+
+	/**
+	 * 根据用户名查询此用户是否存在 存在则返回true
+	 */
+	@Override
+	public Boolean queryUserByName(String username) {
+		Boolean result = false;
+		Connection conn = null;//连接声明
+		PreparedStatement stmt = null;//预编译声明
+		ResultSet rs = null;//结果声明
+		
+		try {
+			conn = DBUtils.getConnection();//获取连接
+			stmt = conn.prepareStatement(QUERY_USER_BY_NAME);//执行预编译
+			//给点位符赋值
+			stmt.setString(1,username);
+			rs = stmt.executeQuery();//执行sql
+			if(rs.next()) {//如果有数据则将result赋值为true
+				result = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtils.release(conn, stmt, rs);
+		}
+		return result;
 	}
 
 	/**

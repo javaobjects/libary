@@ -127,7 +127,7 @@ public class UserRegisterView extends JFrame{
 					return;
 				}
 				// 4、验证用户是否存在
-				User user = userDao.queryUserByName(username);//存在返回true不存在返回false
+				Boolean user = userDao.queryUserByName(username);//存在返回true不存在返回false
 				if(user) {
 					JOptionPane.showMessageDialog(null, "用户名已存在");
 					return;
