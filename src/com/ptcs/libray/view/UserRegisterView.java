@@ -123,52 +123,32 @@ public class UserRegisterView extends JFrame{
 				//验证密码合法性    验证用户密码："^[a-zA-Z]\w{5,17}$"
 				//正确格式为：以字母开头，长度在6~18之间，只能包含字符、数字和下划线。  
 				if(!password.matches("^[a-zA-Z]\\w{5,17}$")) {
-					JOptionPane.showMessageDialog(null, "密码格式不正确：应以字母开头，长度在6~18之间，只能包含字符、数字和下划线");
+					JOptionPane.showMessageDialog(null, "密码格式不正确：应以字母开头，"
+							+ "长度在6~18之间，只能包含字符、数字和下划线");
 					return;
 				}
 				// 4、验证用户是否存在
-				Boolean user = userDao.queryUserByName(username);//存在返回true不存在返回false
-				if(user) {
+				Boolean user_result = userDao.queryUserByName(username);//存在返回true不存在返回false
+				if(user_result) {
 					JOptionPane.showMessageDialog(null, "用户名已存在");
 					return;
 				}
-				
-				
-//				String username = txt_username.getText();
-//				String password = txt_password.getText();
-//				String type = (String)cb_type.getSelectedItem();
-//				int user_type = cb_type.getSelectedIndex() + 1;//1是管理员2 是普通用户
-				
-//				System.out.println(username);
-//				System.out.println(password);
-//				System.out.println(user_type);
-				
-				//2、对数据进行非空判断
-				//对用户名进行非空判断
-//				if(username == null || "".equals(username.trim())) {
-//					JOptionPane.showMessageDialog(null,"用户名为空,请重新输入");
-//					return;
-//				}
-//				//对密码进行非空判断
-//				if(password == null || "".equals(password.trim())) {
-//					JOptionPane.showMessageDialog(null, "密码为空,请重新输入");
-//					return;
-//				}
-				//3、判断用户是否存在
-//				User user = userDao.queryUserByNameAndPassword(username,password,user_type);
-//				if(user == null) {
-//					JOptionPane.showMessageDialog(null, "用户名或密码或类型错误,请重新输入或选择");
-//					return;
-//				}
-				//4、判断用户类型:如果是普通用户则弹出用户主窗体，如果是管理员则弹出管理员主窗体
-				if(user.getUserType() == 1) {//1是管理员
-					System.out.println("弹出管理主窗体");
-					new AdminMainView(user);//弹出管理主窗体 	
-					UserLoginView.this.dispose();////释放窗体占用的内存
-				}else {//2是普通用户
-					System.out.println("弹出普通用户窗体");
-					new UserMainView(user);//弹出普通用户窗体
-					UserLoginView.this.dispose();//释放窗体占用的内存
+				//5、通过验证后向数据库插入数据并返回是否插入成功 成功失败都弹出提示框
+				//此处需要传入四个参数Integer userId, String userName, String userPassword, Integer userType
+				//难点userId如何传  userType 1管理员2普通用户
+				System.out.println(username);
+				System.out.println(password);
+				int row = userDao.addUser(username,password,2);
+				if(row == 0) {
+					//7、若失败则留在当前窗体
+					JOptionPane.showMessageDialog(null, "注册失败");
+					return;
+				}else {
+					JOptionPane.showMessageDialog(null, "注册成功");
+					//6、成功后关闭当前窗体打开登陆窗体
+					UserRegisterView.this.dispose();
+					new UserLoginView();
+					return;
 				}
 			}
 		});

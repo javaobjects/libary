@@ -7,7 +7,7 @@ public interface UserDaoIfac {
 	 * 添加用户的方法：
 	 * 用户注册功能会调用该方法
 	 */
-	int addUser(User user);
+	Integer addUser(String userName, String userPassword, Integer userType);
 	
 	/**
 	 * 根据用户名查询用户是否已存在
