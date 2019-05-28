@@ -3,6 +3,7 @@ package com.ptcs.library.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,12 +30,64 @@ public class RecordDaoImpl implements RecordDaoIfac {
 	
 	
 	/**
-	 * 还书功能
+	 * 10、还书功能
 	 */
-	public boolean returnBook(int record_id,int book_id,int user_id)
+	public boolean returnBook(int record_id,int book_id)
 	{
 		Boolean result = false;
+		/*
+		 * 思路：先设置事务手动提交，查询书的状态，如果可还继续 如果不可还返回，，
+		 * 如果可还那么
+		 * 1、修改借书记录的归还时间
+		 * 2、同时修改书的状态为1
+		 */
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		
+		try {
+			conn = DBUtils.getConnection();
+			conn.setAutoCommit(false);
+			
+			stmt = conn.prepareStatement("select book_status from tab_book where book_id=?");
+			stmt.setInt(1,book_id);
+			rs = stmt.executeQuery();
+			int status = 1;
+			if(rs.next()) { 
+				status = rs.getInt("book_status");
+			}
+			//如果不可借返回
+			if(status == 0) {
+				return result;
+			}else {
+				//如果可还继续
+				//1、修改借书记录的归还时间
+				stmt = conn.prepareStatement("update tab_record set return_time = sysdate where record_id = ?");
+				stmt.setInt(1,record_id);
+//				stmt.setInt(2,user_id);
+				int rows1 = stmt.executeUpdate();
+				//2、同时修改书的状态为1
+				stmt = conn.prepareStatement("update tab_book set book_status = 1 where book_id=?");
+				stmt.setInt(1,book_id);
+				int rows2 = stmt.executeUpdate();
+				
+				if(rows1 > 0 && rows2 > 0) {
+					conn.commit();//事务提交
+					result = true;//借书成功
+				}else {
+					conn.rollback();//事务回滚
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}finally {
+			DBUtils.release(conn, stmt, rs);
+		}
 		return result;
 	}
 	/**
