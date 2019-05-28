@@ -21,7 +21,6 @@ public class DAOFactory {
 	}
 
 	public static BookDaoIfac getBookDaoInstance() {
-		// TODO Auto-generated method stub
 		return new BookDaoImpl();
 	}
 	public static RecordDaoIfac getRecordDaoInstance()
