@@ -98,16 +98,46 @@ public class UserRegisterView extends JFrame{
 				/**
 				 * 点击确定提交按钮目的：
 				 * 1、获取用户姓名、密码、确认密码
-				 * 2、验证用户姓名合法（无特殊字符）
+				 * 2、验证用户姓名密码合法（无特殊字符）
 				 * 3、验证密码与确认密码一致并无特列字符
-				 * 4、通过验证后向数据库插入数据并返回是否插入成功 成功失败都弹出提示框
-				 * 5、成功后关闭当前窗体打开登陆窗体
-				 * 6、若失败则留在当前窗体
+				 * 4、验证用户是否存在
+				 * 5、通过验证后向数据库插入数据并返回是否插入成功 成功失败都弹出提示框
+				 * 6、成功后关闭当前窗体打开登陆窗体
+				 * 7、若失败则留在当前窗体
 				 */
+                 // 1、获取用户姓名、密码、确认密码
 				String username = txt_username.getText();
 				String password = txt_password.getText();
-				String type = (String)cb_type.getSelectedItem();
-				int user_type = cb_type.getSelectedIndex() + 1;//1是管理员2 是普通用户
+				String pwAgain = txt_pw_again.getText();
+				//2、验证用户姓名合法（无特殊字符）验证是否含有^%&',;=?$\"等字符："[^%&',;=?$\x22]+"
+				//验证用户名
+				if(username.matches("[^%&',;=?$\\x22]+") && (username.length() < 1)) {
+					JOptionPane.showMessageDialog(null,"用户名不能含有特殊字符并且长度要大于1");
+					return;
+				}
+				//验证两次密码是否相等
+				if(!password.equals(pwAgain)) {
+					JOptionPane.showMessageDialog(null, "两个输入的密码不相同");
+					return;
+				}
+				//验证密码合法性    验证用户密码："^[a-zA-Z]\w{5,17}$"
+				//正确格式为：以字母开头，长度在6~18之间，只能包含字符、数字和下划线。  
+				if(!password.matches("^[a-zA-Z]\\w{5,17}$")) {
+					JOptionPane.showMessageDialog(null, "密码格式不正确：应以字母开头，长度在6~18之间，只能包含字符、数字和下划线");
+					return;
+				}
+				// 4、验证用户是否存在
+				User user = userDao.queryUserByName(username);//存在返回true不存在返回false
+				if(user) {
+					JOptionPane.showMessageDialog(null, "用户名已存在");
+					return;
+				}
+				
+				
+//				String username = txt_username.getText();
+//				String password = txt_password.getText();
+//				String type = (String)cb_type.getSelectedItem();
+//				int user_type = cb_type.getSelectedIndex() + 1;//1是管理员2 是普通用户
 				
 //				System.out.println(username);
 //				System.out.println(password);
@@ -115,21 +145,21 @@ public class UserRegisterView extends JFrame{
 				
 				//2、对数据进行非空判断
 				//对用户名进行非空判断
-				if(username == null || "".equals(username.trim())) {
-					JOptionPane.showMessageDialog(null,"用户名为空,请重新输入");
-					return;
-				}
-				//对密码进行非空判断
-				if(password == null || "".equals(password.trim())) {
-					JOptionPane.showMessageDialog(null, "密码为空,请重新输入");
-					return;
-				}
+//				if(username == null || "".equals(username.trim())) {
+//					JOptionPane.showMessageDialog(null,"用户名为空,请重新输入");
+//					return;
+//				}
+//				//对密码进行非空判断
+//				if(password == null || "".equals(password.trim())) {
+//					JOptionPane.showMessageDialog(null, "密码为空,请重新输入");
+//					return;
+//				}
 				//3、判断用户是否存在
-				User user = userDao.queryUserByNameAndPassword(username,password,user_type);
-				if(user == null) {
-					JOptionPane.showMessageDialog(null, "用户名或密码或类型错误,请重新输入或选择");
-					return;
-				}
+//				User user = userDao.queryUserByNameAndPassword(username,password,user_type);
+//				if(user == null) {
+//					JOptionPane.showMessageDialog(null, "用户名或密码或类型错误,请重新输入或选择");
+//					return;
+//				}
 				//4、判断用户类型:如果是普通用户则弹出用户主窗体，如果是管理员则弹出管理员主窗体
 				if(user.getUserType() == 1) {//1是管理员
 					System.out.println("弹出管理主窗体");
