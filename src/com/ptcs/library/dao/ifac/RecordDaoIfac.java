@@ -6,6 +6,14 @@ import com.ptcs.library.entity.Record;
 import com.ptcs.library.entity.User;
 
 public interface RecordDaoIfac {
+	
+	/**
+	 * 还书功能
+	 * @param record_id
+	 * @param book_id
+	 * @return
+	 */
+	public boolean returnBook(int record_id,int book_id);
 
 	/**
 	 * 查询本人的所有借阅记录
