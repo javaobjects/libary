@@ -73,11 +73,14 @@ public class UserRegisterView extends JFrame{
 	 * 给所有按钮注册倾听器 方法
 	 */
 	private void registetActionListener() {
+		//点击退出按钮退回注册窗体回到登陆窗体
 		btn_exit.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btn_exit");
+				UserRegisterView.this.dispose();
+				new UserLoginView();
 			}
 		});
 		btn_commit.addActionListener(new ActionListener() {
