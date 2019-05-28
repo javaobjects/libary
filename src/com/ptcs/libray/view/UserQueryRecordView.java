@@ -56,10 +56,15 @@ public class UserQueryRecordView extends JInternalFrame{
 	private JButton btn_return;
 	/** 退出按钮 */
 	private JButton btn_exit;
+	/**定义全局变量*/
+	/**record_id待还书的记录编号**/
+	private int record_id;
+	/**book_id待还书的编号**/
+	private int book_id;
 	/**
 	 * 存放选定图书ID属性
 	 */
-	private Integer book_id = 0;
+//	private Integer book_id = 0;
 	/** 初始化组件装配组件的方法 */ 
 	private void init() {
 		lb_query_type = new JLabel("查询类型：");
@@ -91,38 +96,32 @@ public class UserQueryRecordView extends JInternalFrame{
 	}
 	
 	
-	private void registerListener() {
+	private void registerListener() { 
 		table.addMouseListener(new MouseListener() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {//鼠标点击
-				System.out.println("鼠标点击咯行");
-				int selectedRow = table.getSelectedRow();
-				book_id = (Integer) table.getValueAt(selectedRow, 0);
+				//1、获取用户选定的图书的id，记录id
+				int rowIndex = table.getSelectedRow();
+				record_id = (int) table.getValueAt(rowIndex, 0);
+				book_id = (int) table.getValueAt(rowIndex, 1);
+				System.out.println("record_id:"+record_id+",book_id:"+book_id);
 			}
 		});
 		btn_query.addActionListener(new ActionListener() {
