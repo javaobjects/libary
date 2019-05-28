@@ -25,7 +25,7 @@ import com.ptcs.library.entity.Record;
 import com.ptcs.library.entity.User;
 /**
  * 用户查询借阅记录
- * @author xianxian
+ * @author xianxian 
  *
  */
 public class UserQueryRecordView extends JInternalFrame{
@@ -172,6 +172,11 @@ public class UserQueryRecordView extends JInternalFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("222");
+				//1、获取用户选定的图书的id，记录id
+				
+				//2、对id进行非空检验
+				
+				//3、调用底层dao完成还书功能
 			}
 		});
 		btn_exit.addActionListener(new ActionListener() {
