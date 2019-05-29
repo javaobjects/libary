@@ -1,8 +1,10 @@
 package com.ptcs.library.dao;
 
+import com.ptcs.library.dao.ifac.AdminDaoIfac;
 import com.ptcs.library.dao.ifac.BookDaoIfac;
 import com.ptcs.library.dao.ifac.RecordDaoIfac;
 import com.ptcs.library.dao.ifac.UserDaoIfac;
+import com.ptcs.library.dao.impl.AdminDaoImpl;
 import com.ptcs.library.dao.impl.BookDaoImpl;
 import com.ptcs.library.dao.impl.RecordDaoImpl;
 import com.ptcs.library.dao.impl.UserDaoImpl;
@@ -26,5 +28,11 @@ public class DAOFactory {
 	public static RecordDaoIfac getRecordDaoInstance()
 	{
 		return new RecordDaoImpl();
+	}
+	/**
+	 * 获取 AdminDaoIfac接口实例的方法
+	 */
+	public static AdminDaoIfac getAdminDaoInstance() {
+		return new AdminDaoImpl();
 	}
 }
