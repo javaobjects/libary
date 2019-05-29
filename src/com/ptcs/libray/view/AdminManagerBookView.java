@@ -45,6 +45,12 @@ public class AdminManagerBookView extends JInternalFrame {
 	private JTextField txt_book_id_or_name;
 	/** 查询按钮 */
 	private JButton btn_query;
+	/**添加按钮**/
+	private JButton btn_add;
+	/**添加按钮**/
+	private JButton btn_delete;
+	/**修改按钮**/
+	private JButton btn_update;
 	/** 退出按钮 */
 	private JButton btn_exit;
 	/**定义全局变量*/
@@ -58,19 +64,25 @@ public class AdminManagerBookView extends JInternalFrame {
 		cb_query_type = new JComboBox<String>(new String[] { "所有图书信息", "指定编号图书",
 				"指定书名图书"});
 		btn_query = new JButton("查    询");
+		btn_add = new JButton("添    加");
+		btn_delete = new JButton("删    除");
+		btn_update = new JButton("修    改");
 		txt_book_id_or_name = new JTextField();//输入框
 		btn_exit = new JButton("退     出");
 
 		table = new JTable();
 		panel_left = new JScrollPane(table);
 
-		panel_right = new JPanel(new GridLayout(7, 1, 0, 20));
+		panel_right = new JPanel(new GridLayout(10, 1, 0, 20));
 		panel_right.setBorder(BorderFactory.createTitledBorder(
 				BorderFactory.createRaisedBevelBorder(), "查询条件"));
 		panel_right.add(lb_query_type);
 		panel_right.add(cb_query_type);
 		panel_right.add(txt_book_id_or_name);
 		panel_right.add(btn_query);
+		panel_right.add(btn_add);
+		panel_right.add(btn_delete);
+		panel_right.add(btn_update);
 		panel_right.add(new JLabel());
 		panel_right.add(new JLabel());
 		panel_right.add(btn_exit);
