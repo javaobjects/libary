@@ -40,10 +40,12 @@ public class AdminMainView extends JFrame{
 	 * 定义一个属性保存用户信息：编号，姓名，密码，用户类型
 	 */
 	private User user;
-     //	图书查询
-	private UserQueryBookView qbv = null;
-	//借阅记录查询
-	private UserQueryRecordView qrv = null;
+    //	管理窗体：图书管理
+	private AdminManagerBookView mbv = null;
+	//管理窗体：借阅记录查询
+	private AdminQueryRecordView qrv = null;
+	//管理窗体：用户管理
+	private AdminManagerUserView muv = null;
 	/**
 	 * 初始化各个控件并拼装
 	 */
@@ -97,16 +99,19 @@ public class AdminMainView extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btn_book_mgr");
-//				//显示图书查询嵌入式窗体
-//				if(qbv != null) {
-//					panel_left.remove(qbv);
-//				}
-//				if(qrv != null) {
-//					panel_left.remove(qrv);
-//				}
-//			    qbv = new UserQueryBookView(getUser());
-//				panel_left.add(qbv);
-//				qbv.toFront();//将此窗体放到最前面
+				//显示图书管理嵌入式窗体
+				if(mbv != null) {
+					panel_left.remove(mbv);
+				}
+				if(qrv != null) {
+					panel_left.remove(qrv);
+				}
+				if(muv != null) {
+					panel_left.remove(muv);
+				}
+				mbv = new AdminManagerBookView();
+				panel_left.add(mbv);
+				mbv.toFront();//将此窗体放到最前面
 			}
 		});
 		//借阅记录查询
@@ -114,13 +119,17 @@ public class AdminMainView extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btn_quy_record");
-				if(qbv != null) {
-					panel_left.remove(qbv);
+				//显示借阅记录查询嵌入式窗体
+				if(mbv != null) {
+					panel_left.remove(mbv);
 				}
 				if(qrv != null) {
 					panel_left.remove(qrv);
 				}
-				qrv = new UserQueryRecordView(getUser());
+				if(muv != null) {
+					panel_left.remove(muv);
+				}
+				qrv = new AdminQueryRecordView();
 				panel_left.add(qrv);
 				qrv.toFront();//将此窗体放到最前面
 			}
@@ -131,7 +140,19 @@ public class AdminMainView extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("btn_user_mgr");
-				
+				//显示用户管理查询嵌入式窗体
+				if(mbv != null) {
+					panel_left.remove(mbv);
+				}
+				if(qrv != null) {
+					panel_left.remove(qrv);
+				}
+				if(muv != null) {
+					panel_left.remove(muv);
+				}
+				muv = new AdminManagerUserView();
+				panel_left.add(muv);
+				muv.toFront();//将此窗体放到最前面
 			}
 		});
 		
