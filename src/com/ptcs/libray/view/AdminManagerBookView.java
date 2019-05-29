@@ -21,17 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
-import com.ptcs.library.dao.DAOFactory;
-import com.ptcs.library.dao.ifac.AdminDaoIfac;
-import com.ptcs.library.dao.ifac.RecordDaoIfac;
-import com.ptcs.library.entity.Record;
-import com.ptcs.library.entity.User;
-//import com.ptcs.libray.view.UserQueryRecordView.RecordModel;
-
 public class AdminManagerBookView extends JInternalFrame {
 	//窗体中功能的实现依赖底层的dao，所以属性依赖
-	private AdminDaoIfac adminDao = DAOFactory.getAdminDaoInstance();
-//	private User user;
 	/**
 	 * 窗体中最外层的面板
 	 */
@@ -54,8 +45,6 @@ public class AdminManagerBookView extends JInternalFrame {
 	private JTextField txt_book_id_or_name;
 	/** 查询按钮 */
 	private JButton btn_query;
-//	/** 还书按钮 */
-//	private JButton btn_return;
 	/** 退出按钮 */
 	private JButton btn_exit;
 	/**定义全局变量*/
@@ -63,17 +52,12 @@ public class AdminManagerBookView extends JInternalFrame {
 	private int record_id;
 	/**book_id待还书的编号**/
 	private int book_id;
-	/**
-	 * 存放选定图书ID属性
-	 */
-//	private Integer book_id = 0;
 	/** 初始化组件装配组件的方法 */ 
 	private void init() {
 		lb_query_type = new JLabel("查询类型：");
 		cb_query_type = new JComboBox<String>(new String[] { "所有图书信息", "指定编号图书",
 				"指定书名图书"});
 		btn_query = new JButton("查    询");
-//		btn_return = new JButton("还     书");
 		txt_book_id_or_name = new JTextField();//输入框
 		btn_exit = new JButton("退     出");
 
@@ -85,9 +69,8 @@ public class AdminManagerBookView extends JInternalFrame {
 				BorderFactory.createRaisedBevelBorder(), "查询条件"));
 		panel_right.add(lb_query_type);
 		panel_right.add(cb_query_type);
-		panel_right.add(btn_query);
 		panel_right.add(txt_book_id_or_name);
-//		panel_right.add(btn_return);
+		panel_right.add(btn_query);
 		panel_right.add(new JLabel());
 		panel_right.add(new JLabel());
 		panel_right.add(btn_exit);
@@ -158,10 +141,10 @@ public class AdminManagerBookView extends JInternalFrame {
 				 * 
 				 */
 				//把刚才选的借阅记录编号清空
-				record_id = 0;
-				book_id = 0;
-				int type = cb_query_type.getSelectedIndex();//值从0开始
-				List<Record> records = null;
+//				record_id = 0;
+//				book_id = 0;
+//				int type = cb_query_type.getSelectedIndex();//值从0开始
+//				List<Record> records = null;
 				
 //				switch (type) {
 //					case 0:
@@ -176,9 +159,9 @@ public class AdminManagerBookView extends JInternalFrame {
 //					default:
 //						break;
 //				}
-				System.out.println("records:"+records.toString());
-				RecordModel model = new RecordModel(records);
-				table.setModel(model);
+//				System.out.println("records:"+records.toString());
+//				RecordModel model = new RecordModel(records);
+//				table.setModel(model);
 				
 			}
 		});
@@ -228,17 +211,17 @@ public class AdminManagerBookView extends JInternalFrame {
 	}
 	//定义显示图书数据表格模型，也是一个内部类
 	private class RecordModel implements TableModel{
-
-		private List<Record> records;
-		  
-		public RecordModel(List<Record> records)
-		{
-			this.records = records;
-		}
-		@Override
-		public int getRowCount() {
-			return records.size();
-		}
+//
+//		private List<Record> records;
+//		  
+//		public RecordModel(List<Record> records)
+//		{
+//			this.records = records;
+//		}
+//		@Override
+//		public int getRowCount() {
+//			return records.size();
+//		}
 
 		@Override
 		public int getColumnCount() {
@@ -246,19 +229,19 @@ public class AdminManagerBookView extends JInternalFrame {
 		}
 
 		@Override//3
-		public String getColumnName(int columnIndex) {
-			if(columnIndex == 0) {
-				return "记录编号";
-			}else if(columnIndex == 1) {
-				return "图书编号";
-			}else if(columnIndex == 2) {
-				return "图书名称";
-			}else if(columnIndex == 3){
-				return "借书时间";
-			}else {
-				return "是否已经归还";
-			}
-		}
+//		public String getColumnName(int columnIndex) {
+//			if(columnIndex == 0) {
+//				return "记录编号";
+//			}else if(columnIndex == 1) {
+//				return "图书编号";
+//			}else if(columnIndex == 2) {
+//				return "图书名称";
+//			}else if(columnIndex == 3){
+//				return "借书时间";
+//			}else {
+//				return "是否已经归还";
+//			}
+//		}
 
 		@Override
 		public Class<?> getColumnClass(int columnIndex) {
@@ -273,18 +256,18 @@ public class AdminManagerBookView extends JInternalFrame {
 		@Override//4
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			//首先获取当前行的数据：record
-			Record record = records.get(rowIndex);//rowIndex从0开始 相当于集合中元素索引
-			if(columnIndex == 0) {
-				return record.getRecordId();
-			}else if(columnIndex == 1) {
-				return record.getBook().getBookId();
-			}else if(columnIndex == 2) {
-				return record.getBook().getBookName();
-			}else if(columnIndex == 3){
-				return record.getLendTime();
-			}else {
-				return record.getReturnTime() == null?"未还":"已还";
-			}
+//			Record record = records.get(rowIndex);//rowIndex从0开始 相当于集合中元素索引
+//			if(columnIndex == 0) {
+//				return record.getRecordId();
+//			}else if(columnIndex == 1) {
+//				return record.getBook().getBookId();
+//			}else if(columnIndex == 2) {
+//				return record.getBook().getBookName();
+//			}else if(columnIndex == 3){
+//				return record.getLendTime();
+//			}else {
+//				return record.getReturnTime() == null?"未还":"已还";
+//			}
 		}
 
 		@Override
