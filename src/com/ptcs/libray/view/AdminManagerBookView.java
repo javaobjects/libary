@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
@@ -25,12 +26,12 @@ import com.ptcs.library.dao.ifac.AdminDaoIfac;
 import com.ptcs.library.dao.ifac.RecordDaoIfac;
 import com.ptcs.library.entity.Record;
 import com.ptcs.library.entity.User;
-import com.ptcs.libray.view.UserQueryRecordView.RecordModel;
+//import com.ptcs.libray.view.UserQueryRecordView.RecordModel;
 
 public class AdminManagerBookView extends JInternalFrame {
 	//窗体中功能的实现依赖底层的dao，所以属性依赖
 	private AdminDaoIfac adminDao = DAOFactory.getAdminDaoInstance();
-	private User user;
+//	private User user;
 	/**
 	 * 窗体中最外层的面板
 	 */
@@ -49,10 +50,12 @@ public class AdminManagerBookView extends JInternalFrame {
 	private JLabel lb_query_type;
 	/** 查询类型下拉框 */
 	private JComboBox<String> cb_query_type;
+	/**输入框用来输入图书编号或者图书的书名**/
+	private JTextField txt_book_id_or_name;
 	/** 查询按钮 */
 	private JButton btn_query;
-	/** 还书按钮 */
-	private JButton btn_return;
+//	/** 还书按钮 */
+//	private JButton btn_return;
 	/** 退出按钮 */
 	private JButton btn_exit;
 	/**定义全局变量*/
@@ -67,10 +70,11 @@ public class AdminManagerBookView extends JInternalFrame {
 	/** 初始化组件装配组件的方法 */ 
 	private void init() {
 		lb_query_type = new JLabel("查询类型：");
-		cb_query_type = new JComboBox<String>(new String[] { "所有借书记录", "未还借书记录",
-				"已还借书记录"});
+		cb_query_type = new JComboBox<String>(new String[] { "所有图书信息", "指定编号图书",
+				"指定书名图书"});
 		btn_query = new JButton("查    询");
-		btn_return = new JButton("还     书");
+//		btn_return = new JButton("还     书");
+		txt_book_id_or_name = new JTextField();//输入框
 		btn_exit = new JButton("退     出");
 
 		table = new JTable();
@@ -82,7 +86,8 @@ public class AdminManagerBookView extends JInternalFrame {
 		panel_right.add(lb_query_type);
 		panel_right.add(cb_query_type);
 		panel_right.add(btn_query);
-		panel_right.add(btn_return);
+		panel_right.add(txt_book_id_or_name);
+//		panel_right.add(btn_return);
 		panel_right.add(new JLabel());
 		panel_right.add(new JLabel());
 		panel_right.add(btn_exit);
@@ -158,63 +163,62 @@ public class AdminManagerBookView extends JInternalFrame {
 				int type = cb_query_type.getSelectedIndex();//值从0开始
 				List<Record> records = null;
 				
-				switch (type) {
-					case 0:
-						records = recordDao.queryAllRecord(user);
-						break;
-					case 1:
-						records = recordDao.queryAllNotReturnRecord(user);
-						break;
-					case 2:
-						records = recordDao.queryAllReturnRecord(user);
-						break;
-					default:
-						break;
-				}
+//				switch (type) {
+//					case 0:
+//						records = recordDao.queryAllRecord(user);
+//						break;
+//					case 1:
+//						records = recordDao.queryAllNotReturnRecord(user);
+//						break;
+//					case 2:
+//						records = recordDao.queryAllReturnRecord(user);
+//						break;
+//					default:
+//						break;
+//				}
 				System.out.println("records:"+records.toString());
 				RecordModel model = new RecordModel(records);
 				table.setModel(model);
 				
 			}
 		});
-		btn_return.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("222");
-				//1、获取用户选定的图书的id，记录id能过给table控件注册侦听器获取
-				
-				//2、对id进行非空检验
-				if(record_id == 0) {
-					JOptionPane.showMessageDialog(null, "请选择要还的书");
-					return;
-				}
-				
-				//3、调用底层dao完成还书功能并提示信息
-				boolean result = recordDao.returnBook(record_id,book_id);
-				if(result) {
-					JOptionPane.showMessageDialog(null, "还书成功");
-					return;
-				}else {
-					JOptionPane.showMessageDialog(null, "还书失败");
-					return;
-				}
-			}
-		});
+//		btn_return.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				System.out.println("222");
+//				//1、获取用户选定的图书的id，记录id能过给table控件注册侦听器获取
+//				
+//				//2、对id进行非空检验
+//				if(record_id == 0) {
+//					JOptionPane.showMessageDialog(null, "请选择要还的书");
+//					return;
+//				}
+//				
+//				//3、调用底层dao完成还书功能并提示信息
+//				boolean result = recordDao.returnBook(record_id,book_id);
+//				if(result) {
+//					JOptionPane.showMessageDialog(null, "还书成功");
+//					return;
+//				}else {
+//					JOptionPane.showMessageDialog(null, "还书失败");
+//					return;
+//				}
+//			}
+//		});
 		btn_exit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("333");
-				UserQueryRecordView.this.dispose();//关闭当前窗口
+				AdminManagerBookView.this.dispose();//关闭当前窗口
 			}
 		});
 		
 	}
 	/** 构造方法 */
-	public UserQueryRecordView(User user) {
-		this.user = user;
+	public AdminManagerBookView() {
 		init();
 		registerListener();
-		this.setTitle("用户查询借阅记录窗体");
+		this.setTitle("图书管理窗体");
 		this.setSize(679,540);
 		//设置窗体可以关闭
 		this.setClosable(true);
