@@ -28,7 +28,7 @@ public class UserDaoImpl implements UserDaoIfac {
 			+ " where user_name = ?";
 	/**向用户表里插入数据**/
 	private static final String INSERT_USER_TO_TAB_USER = "insert into tab_user(user_id,user_name,user_password,user_type)"
-			+ " values((select max(user_id) from tab_user)+1,?,?,?);";
+			+ " values((select max(user_id) from tab_user)+1,?,?,?)";
 
 	/**
 	 * 添加用户的方法：
@@ -41,8 +41,7 @@ public class UserDaoImpl implements UserDaoIfac {
 		int rows = 0;
 		Connection conn = null;//连接声明
 		PreparedStatement stmt = null;//预编译声明
-		ResultSet rs = null;//结果声明
-		
+		//插入 更新 删除 均无声明结果集
 		try {
 			conn = DBUtils.getConnection();//获取连接
 			conn.setAutoCommit(false);//设置事务手动提交
@@ -51,11 +50,10 @@ public class UserDaoImpl implements UserDaoIfac {
 			stmt.setString(1,userName);
 			stmt.setString(2,userPassword);
 			stmt.setInt(3,userType);
-			rs = stmt.executeQuery();//执行sql语句
-			if(rs.next()){
-				rows++;
+			rows = stmt.executeUpdate();//执行sql语句 返回变更的行数
+			if(rows != 0) {//插入成功
 				conn.commit();//事务提交
-			}else {
+			}else {//插入失败
 				conn.rollback();//事务回滚
 			}
 		} catch (Exception e) {
@@ -66,7 +64,7 @@ public class UserDaoImpl implements UserDaoIfac {
 				e1.printStackTrace();
 			}
 		}finally {
-			DBUtils.release(conn, stmt, rs);
+			DBUtils.release(conn, stmt, null);
 		}
 		return rows;
 	}

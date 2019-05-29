@@ -103,5 +103,7 @@ JDBC工具：DBUtils
 ![](https://upload-images.jianshu.io/upload_images/5227364-2f263389b8e4cd55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 5. JInternalFrame窗体无法关闭 原因：this.setDefaultCloseOperation()里参数DISPOSE_ON_CLOSE/EXIT_ON_CLOSE混淆 正确值应该是 DISPOSE_ON_CLOSE
 ![](https://upload-images.jianshu.io/upload_images/5227364-1bfde1ded786ca91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
+6. sql语句后面多写分号 例："insert into tab_user(user_id,user_name,user_password,user_type)"
+			+ " values((select max(user_id) from tab_user)+1,?,?,?);" 正确写法应该是:"insert into tab_user(user_id,user_name,user_password,user_type)"
+			+ " values((select max(user_id) from tab_user)+1,?,?,?)"
 ![](https://upload-images.jianshu.io/upload_images/5227364-b97e60aa43f069d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
