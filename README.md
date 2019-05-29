@@ -107,3 +107,31 @@ JDBC工具：DBUtils
 			+ " values((select max(user_id) from tab_user)+1,?,?,?);" 正确写法应该是:"insert into tab_user(user_id,user_name,user_password,user_type)"
 			+ " values((select max(user_id) from tab_user)+1,?,?,?)"
 ![](https://upload-images.jianshu.io/upload_images/5227364-b97e60aa43f069d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+#### 已完成功能模块：
+
+用户前台模块部分：
+
+1. 注册信息
+2. 用户登陆
+3. 查看所有图书信息
+4. 查看热门图书信息
+5. 查看可借图书信息
+6. 查看已借图书信息(不可借)
+7. 查看本人所有借书记录
+8. 查看本人未归还图书记录
+9. 查看本人已归还图书记录(已还借书记录)
+10. 借书
+11. 还书
+
+管理员后台模块部分：
+
+1. 用户登陆
+2. 查看所有图书信息 ----未完成
+3. 查看指定编号的图书信息----未完成
+4. 查看指定书名的图书信息----未完成
+5. 添加图书----未完成
+6. 删除图书----未完成
+7. 修改图书----未完成
+8. 查看指定用户的借书历史记录----未完成
+9. 查看指定图书的借出历史记录----未完成
