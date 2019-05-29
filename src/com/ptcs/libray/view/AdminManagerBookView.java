@@ -51,6 +51,8 @@ public class AdminManagerBookView extends JInternalFrame {
 	private JButton btn_delete;
 	/**修改按钮**/
 	private JButton btn_update;
+	/**修改按钮**/
+	private JButton btn_lend;
 	/** 退出按钮 */
 	private JButton btn_exit;
 	/**定义全局变量*/
@@ -67,6 +69,7 @@ public class AdminManagerBookView extends JInternalFrame {
 		btn_add = new JButton("添    加");
 		btn_delete = new JButton("删    除");
 		btn_update = new JButton("修    改");
+		btn_lend = new JButton("借    书");
 		txt_book_id_or_name = new JTextField();//输入框
 		btn_exit = new JButton("退     出");
 
@@ -83,7 +86,8 @@ public class AdminManagerBookView extends JInternalFrame {
 		panel_right.add(btn_add);
 		panel_right.add(btn_delete);
 		panel_right.add(btn_update);
-		panel_right.add(new JLabel());
+		panel_right.add(btn_lend);
+//		panel_right.add(new JLabel());
 		panel_right.add(new JLabel());
 		panel_right.add(btn_exit);
 
