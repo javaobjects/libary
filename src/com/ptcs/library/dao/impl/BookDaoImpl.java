@@ -18,22 +18,22 @@ import com.ptcs.library.util.DBUtils;
 public class BookDaoImpl implements BookDaoIfac {
 
 	/** 查询所有图书的sql语句 */
-	private static final String QUERY_ALL_BOOKS="select book_id,book_name,book_count,book_status from tab_book";
+	private static final String QUERY_ALL_BOOKS="select book_id,book_name,book_count,book_status from libary_tab_book";
 	/** 查看热门图书信息 */
 	private static final String QUERY_HOT_BOOKS="select b.* "
-			+ "from (select book_id,book_name,book_count,book_status from tab_book order by book_count desc) b"
+			+ "from (select book_id,book_name,book_count,book_status from libary_tab_book order by book_count desc) b"
 			+ " where rownum<=5";
 	/** 查询可借图书 */
-	private static final String QUERY_CAN_LEND_BOOKS = "select book_id,book_name,book_count,book_status from tab_book"
+	private static final String QUERY_CAN_LEND_BOOKS = "select book_id,book_name,book_count,book_status from libary_tab_book"
 			+ " where book_status=1";
 	/** 查询不可借图书*/
-	private static final String QUERY_NOT_LEND_BOOKS = "select book_id,book_name,book_count,book_status from tab_book"
+	private static final String QUERY_NOT_LEND_BOOKS = "select book_id,book_name,book_count,book_status from libary_tab_book"
 			+ " where book_status=0";
 	/**插入一条借书记录**/
-	private static final String INSERT_LENT_BOOK_TO_TAB_RECORD = "insert into tab_record(record_id,book_id,user_id,lend_time) "
-			+ "values(seq_record_id.nextval,?,?,sysdate)";
+	private static final String INSERT_LENT_BOOK_TO_TAB_RECORD = "insert into libary_tab_record(record_id,book_id,user_id,lend_time) "
+			+ "values(seq_libary_record_id.nextval,?,?,sysdate)";
 	/**修改书的状态为0**/
-	private static final String UPDATE_BOOK_STATUS_TO0 = "update tab_book set book_status = 0,"
+	private static final String UPDATE_BOOK_STATUS_TO0 = "update libary_tab_book set book_status = 0,"
 			+ "book_count = book_count + 1 where book_id=?";
 	/**
 	 * 10.借书

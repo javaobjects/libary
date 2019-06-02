@@ -1,6 +1,6 @@
 # 图书管理系统
 
-此项目是一个[cms(内容管理系统)](https://baike.baidu.com/item/CMS/315935?fr=aladdin);
+此项目是一个[cms(内容管理系统)](https://baike.baidu.com/item/CMS/315935?fr=aladdin)JAVASE项目;
 
 ### 使用语言：java
 
@@ -58,7 +58,7 @@ JDBC工具：DBUtils
 ```
 ### 数据库设计
 
-#### Book表
+#### libary_tab_Book表
 
 |  列名	  |  数据类型	|  可否为空	 |  说明  |
 | ------  | ---------- | --------- | ------ |
@@ -67,7 +67,7 @@ JDBC工具：DBUtils
 |book_count	|int	|not null	|借出次数|
 |book_status	|int	|not null	|书籍状态（0，已借出，1，可借）|
 
-#### Users表
+#### libary_tab_Users表
 |  列名	 |  数据类型  |  可否为空  |  说明  |
 | ------ | -------- | --------- | ------ |
 |user_id |	int|	not null|	用户编号，自增长|
@@ -75,7 +75,7 @@ JDBC工具：DBUtils
 |user_password|	varchar	|not null|	用户密码|
 |user_type	|int|	not null|	用户类型，1，普通用户，2，管理员|
 
-### Record表
+### libary_tab_Record表
 
 |  列名	|  数据类型  |  可否为空  |	 说明  |
 | -----  | --------- | --------- | ------ |

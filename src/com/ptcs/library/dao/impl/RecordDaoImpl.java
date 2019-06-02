@@ -17,14 +17,14 @@ public class RecordDaoImpl implements RecordDaoIfac {
 
 	private static final String QUERY_ALL_RECORD_BY_SELF = "select r.record_id,r.user_id,"
 			+ "r.book_id,r.lend_time,r.return_time,"
-			+ "b.book_name from tab_record r,tab_book b where r.book_id = b.book_id and user_id = ?";
+			+ "b.book_name from libary_tab_record r,libary_tab_book b where r.book_id = b.book_id and user_id = ?";
 	private static final String QUERY_ALL_NOT_RETURN_RECORD_BY_SELF = "select r.record_id,r.user_id,"
 			+ "r.book_id,r.lend_time,r.return_time,"
-			+ "b.book_name from tab_record r,tab_book b where r.book_id = b.book_id and user_id = ?"
+			+ "b.book_name from libary_tab_record r,libary_tab_book b where r.book_id = b.book_id and user_id = ?"
 			+ " and r.return_time is null";
 	private static final String QUERY_ALL_RETURN_RECORD_BY_SELF = "select r.record_id,r.user_id,"
 			+ "r.book_id,r.lend_time,r.return_time,"
-			+ "b.book_name from tab_record r,tab_book b where r.book_id = b.book_id and user_id = ?"
+			+ "b.book_name from libary_tab_record r,libary_tab_book b where r.book_id = b.book_id and user_id = ?"
 			+ " and r.return_time is not null";
 
 	

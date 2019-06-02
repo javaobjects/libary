@@ -19,16 +19,16 @@ public class UserDaoImpl implements UserDaoIfac {
 	/** 
 	 * 根据用户名和密码查询用户的sql
 	 */
-	private static final String QUERY_USER_BY_NAME_AND_PASSWORD = "select * from tab_user "
+	private static final String QUERY_USER_BY_NAME_AND_PASSWORD = "select * from libary_tab_user "
 			+ "where user_name = ? and user_password = ? and user_type = ?";
 	/**
 	 * 根据用户名查询用户名是否存在的sql
 	 */
-	private static final String QUERY_USER_BY_NAME = "select * from tab_user"
+	private static final String QUERY_USER_BY_NAME = "select * from libary_tab_user"
 			+ " where user_name = ?";
 	/**向用户表里插入数据**/
-	private static final String INSERT_USER_TO_TAB_USER = "insert into tab_user(user_id,user_name,user_password,user_type)"
-			+ " values((select max(user_id) from tab_user)+1,?,?,?)";
+	private static final String INSERT_USER_TO_TAB_USER = "insert into libary_tab_user(user_id,user_name,user_password,user_type)"
+			+ " values((select max(user_id) from libary_tab_user)+1,?,?,?)";
 
 	/**
 	 * 添加用户的方法：
